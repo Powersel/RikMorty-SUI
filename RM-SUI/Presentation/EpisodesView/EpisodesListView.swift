@@ -24,7 +24,6 @@ struct EpisodesListView<ViewModel: EpisodesListViewModelProtocol>: View {
       }.task {
         await viewModel.loadInitialData()
       }
-      
     }
 }
 

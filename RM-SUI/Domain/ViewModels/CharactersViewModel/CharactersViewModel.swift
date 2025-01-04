@@ -1,21 +1,21 @@
 import Foundation
 
-protocol EpisodesListViewModelProtocol: ListViewModelProtocol {
+protocol CharactersListViewModelProtocol: ListViewModelProtocol {
   /// Array containing of items to be displayed.
-  var items: [EpisodeDTO] { get }
+  var items: [CharacterDTO] { get }
   
-  func hasReachedEnd(_ episode: EpisodeDTO) -> Bool
+  func hasReachedEnd(_ character: CharacterDTO) -> Bool
 }
 
-final class EpisodesListViewModel: EpisodesListViewModelProtocol {
+final class CharacterListViewModel: CharactersListViewModelProtocol {
   
   @Published
   private(set) var state: ListViewState = .idle
   
   @Published
-  private(set) var items: [EpisodeDTO] = []
+  private(set) var items: [CharacterDTO] = []
   
-  private var episodesData: RMEpisodesDTO?
+  private var charactersData: RMCharactersDTO?
   
   @Published
   private(set) var error: Error?
@@ -41,10 +41,10 @@ final class EpisodesListViewModel: EpisodesListViewModelProtocol {
     
   }
   
-  func hasReachedEnd(_ episode: EpisodeDTO) -> Bool {
+  func hasReachedEnd(_ character: CharacterDTO) -> Bool {
     if items.isEmpty { return false }
     
-    return items.last?.id == episode.id
+    return items.last?.id == character.id
   }
   
   // MARK: - Private
@@ -54,12 +54,12 @@ final class EpisodesListViewModel: EpisodesListViewModelProtocol {
     guard state != .loading else { return }
     state = .loading
     
-    let urlString = episodesData?.info.next ?? APIEndpoint.episodes.path
+    let urlString = charactersData?.info.next ?? APIEndpoint.characters.path
     
     do {
-      let episodesDataDTO = try await repository.fetchEpisodes(urlString)
-      items.append(contentsOf: episodesDataDTO.results)
-      episodesData = episodesDataDTO
+      let rmCharactersDTO = try await repository.fetchCharacters(urlString)
+      items.append(contentsOf: rmCharactersDTO.results)
+      charactersData = rmCharactersDTO
       error = nil
       state = .loaded
     } catch let loadindError {

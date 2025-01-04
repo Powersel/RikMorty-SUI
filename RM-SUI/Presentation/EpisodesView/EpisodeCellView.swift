@@ -9,21 +9,15 @@ struct EpisodeCellView: View {
   }
   
   var body: some View {
-    HStack {
-      VStack {
-        VStack(spacing: .zero) {
+    VStack {
           Text("Episode number: \(String(episode.id))")
             .font(.footnote)
-            .frame(alignment: .leading)
           Spacer()
           Text("Episode name: \(episode.name)")
             .font(.headline)
             .multilineTextAlignment(.leading)
           Spacer()
-        }
-      }
-      .frame(width: .nan)
-    }
+    }.frame(width: .infinity, alignment: .leading)
   }
 }
 
